@@ -5,13 +5,6 @@ int main(){
     int n, k;
     cin >> n >> k;
 
-    int t[n][k];
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < k; j++){
-            cin >> t[i][j];
-        }
-    }
-
     bool dp[n+1][128];
     for(int i = 0; i < n+1; i++){
         for(int j = 0; j < 128; j++){
@@ -20,12 +13,14 @@ int main(){
     }
 
     dp[0][0] = true;
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < 128; j++){
-            if(dp[i][j]){
-                for(int l = 0; l < k; l++){
-                    dp[i+1][j^t[i][l]] = true;
-                }
+
+    for(int i = 1; i <= n; i++){
+        for(int j = 0; j < k; j++){
+            int t;
+            cin >> t;
+
+            for(int x = 0; x < 128; x++){
+                if(dp[i-1][x])  dp[i][x^t] = true;
             }
         }
     }
