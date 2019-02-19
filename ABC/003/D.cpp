@@ -32,16 +32,21 @@ int main(){
 
     ll ans = (comb(x*y, d)*comb(x*y-d, l))%mod;
 
-    bool a = (x*(y-1) >= d+l);
-    bool b = ((x-1)*y >= d+l);
-
-    // 部分点に該当する部分、なんか間違っている
-    if(a)
-        ans = (ans + mod - (2*comb(x*(y-1), d)*comb(x*(y-1)-d, l))%mod )%mod;
-    if(b)
-        ans = (ans + mod - (2*comb(y*(x-1), d)*comb(y*(x-1)-d, l))%mod )%mod;
-    if((x-1)*(y-1) >= d+l)
-        ans = (ans + 3*(comb((x-1)*(y-1), d)*comb((x-1)*(y-1)-d, l))%mod )%mod;
+    for(int i = 1; i < 1<<4; i++){
+        int popcnt = 0;
+        int tmpx = x, tmpy = y;
+        for(int j = 0; j < 4; j++){
+            if((i>>j)&1){
+                popcnt++;
+                if(j % 2 == 0) tmpx--;
+                else           tmpy--; 
+            }
+        }
+        if(tmpx <= 0 || tmpy <= 0 || tmpx*tmpy < d+l) continue;
+        ans += (-2*(popcnt%2)+1)*(comb(tmpx*tmpy, d)*comb(tmpx*tmpy-d, l));
+        if(ans < 0) ans += (-ans/mod+1)*mod;
+        ans %= mod;
+    }
 
     ans *= (r-x+1);
     ans %= mod;
