@@ -3,7 +3,7 @@
 #include<algorithm>
 using namespace std;
 
-int nxt[20][100000], rev[20][100000];
+int nxt[20][100000];
 
 void construct(vector<int> &v, int l, int c[20][100000]){
     int n = v.size();
@@ -29,11 +29,10 @@ int main(){
     int l;
     cin >> l;
     construct(x, l, nxt);
-    construct(y, l, rev);
-    auto f = [&](int a, int b, int c[20][100000])->int{
+    auto f = [&](int a, int b)->int{
         int ret = 0, tmp = a;
         for(int k = 19; k >= 0; k--){
-            int to = c[k][tmp];
+            int to = nxt[k][tmp];
             if(to >= 0 && to < b){
                 tmp = to;
                 ret += 1<<k;
@@ -47,8 +46,8 @@ int main(){
         int a, b;
         cin >> a >> b;
         a--, b--;
-        if(a < b)   cout << f(a, b, nxt) << endl;
-        else        cout << f(n-1-a, n-1-b, rev) << endl;
+        if(a > b)   swap(a,b);
+        cout << f(a, b) << endl;
     }
     return 0;
 }
