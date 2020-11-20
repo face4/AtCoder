@@ -1,0 +1,10 @@
+#include<iostream>
+using namespace std;
+typedef long long ll;
+
+int main(){
+    ll n, k;
+    cin >> n >> k;
+    cout << min(n%k, k-n%k) << endl;
+    return 0;
+}
